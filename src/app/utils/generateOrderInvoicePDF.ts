@@ -43,7 +43,7 @@ export const generateOrderInvoicePDF = async (order: IOrder): Promise<Buffer> =>
             doc.moveDown(0.5);
             //@ts-ignore
             doc.text(`Customer Name: ${order.user.name}`);
-            doc.text(`Shipping Address: ${order.shippingAddress}`);
+            // doc.text(`Shipping Address: ${order.shippingAddress}`);
             doc.moveDown(1);
 
             // Payment Details with graphical design
@@ -103,11 +103,11 @@ export const generateOrderInvoicePDF = async (order: IOrder): Promise<Buffer> =>
             pricingY += tableHeight;
 
             doc.fontSize(11).fillColor('#000000').text('Discount', 50, pricingY, { width: 200 });
-            doc.text(`-${order.discount.toFixed(2)} /-`, 400, pricingY, { width: 90, align: 'right' });
+            // doc.text(`-${order.discount.toFixed(2)} /-`, 400, pricingY, { width: 90, align: 'right' });
             pricingY += tableHeight;
 
             doc.fontSize(11).fillColor('#000000').text('Delivery Charge', 50, pricingY, { width: 200 });
-            doc.text(`${order.deliveryCharge.toFixed(2)} /-`, 400, pricingY, { width: 90, align: 'right' });
+            // doc.text(`${order.deliveryCharge.toFixed(2)} /-`, 400, pricingY, { width: 90, align: 'right' });
             pricingY += tableHeight;
 
             // Final Amount (Bold and Color)

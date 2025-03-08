@@ -27,6 +27,18 @@ const getSingleBooking = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getStudentBookings = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
+  console.log("single Booking", studentId)
+  const result = await BookingServices.getStudentBookings(studentId);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Booking  retrieved successfully',
+    data: result,
+  });
+});
 const approveRequest = (async (req: Request, res: Response) => {
   const { tutorId } = req.params;
   // console.log(tutorId, req.body)
@@ -96,5 +108,6 @@ export const BookingController = {
   getAllBooking,
   getSingleBooking,
   approveRequest,
-  cancelRequest
+  cancelRequest,
+  getStudentBookings
 };

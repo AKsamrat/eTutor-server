@@ -18,9 +18,20 @@ const getSingleBooking = async (tutorId: string) => {
   // console.log(email)
   // const query = { _id: new ObjectId(id) };
   const result = await Booking.find({ tutorId }).populate('studentId');
+  // console.log(result)
+  return result;
+};
+
+
+const getStudentBookings = async (studentId: string) => {
+  // console.log(email)
+  // const query = { _id: new ObjectId(id) };
+  const result = await Booking.find({ studentId }).populate('tutorId');
   console.log(result)
   return result;
 };
+
+
 const approveRequest = async (
   id: string,
 
@@ -67,5 +78,6 @@ export const BookingServices = {
   createBooking,
   getAllBooking,
   approveRequest,
-  cancelRequest
+  cancelRequest,
+  getStudentBookings
 };

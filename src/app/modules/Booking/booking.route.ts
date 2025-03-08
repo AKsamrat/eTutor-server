@@ -7,6 +7,7 @@ const router = Router();
 router.post("/", BookingController.createBooking)
 router.get("/", BookingController.getAllBooking);
 router.get("/:tutorId", BookingController.getSingleBooking);
+router.get("/student/:studentId", BookingController.getStudentBookings);
 router.patch("/approve/:tutorId", BookingController.approveRequest);
 router.patch("/cancel/:tutorId", BookingController.cancelRequest);
 
