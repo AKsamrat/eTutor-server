@@ -5,40 +5,61 @@ import { JwtPayload } from 'jsonwebtoken';
 import AppError from '../../errors/appError';
 import QueryBuilder from '../../builder/QueryBuilder';
 import mongoose from 'mongoose';
+import Tutor from '../tutor/tutor.model';
 
 
 //@ need to fix
-const createReview = async (payload: IReview, user: JwtPayload) => {
+const createReview = async (payload: IReview) => {
    const session = await mongoose.startSession();
-
+   console.log(payload)
    try {
       session.startTransaction();
 
-      const existingReview = await Review.findOne(
+      const existingTutor = await Review.findOne(
          {
-            user: user.userId,
-            product: payload.product,
+            tutor: payload.tutor,
+         },
+         null,
+         { session }
+      );
+      const existingStudent = await Review.findOne(
+         {
+            student: payload.student,
          },
          null,
          { session }
       );
 
-      if (existingReview) {
+      if (existingTutor && existingStudent) {
          throw new AppError(
             StatusCodes.BAD_REQUEST,
             'You have already reviewed this product.'
          );
       }
 
-      const review = await Review.create([{ ...payload, user: user.userId }], {
+      const review = await Review.create([{ ...payload }], {
          session,
       });
 
       // Aggregate reviews for the product
+      // const reviews = await Review.aggregate([
+      //    {
+      //       $match: {
+      //          tutor: review[0].tutor,
+      //       },
+      //    },
+      //    {
+      //       $group: {
+      //          _id: null,
+      //          averageRating: { $avg: '$rating' },
+      //          ratingCount: { $sum: 1 },
+      //       },
+      //    },
+      // ]);
       const reviews = await Review.aggregate([
          {
             $match: {
-               product: review[0].product,
+               tutor: review[0].tutor,
             },
          },
          {
@@ -52,18 +73,18 @@ const createReview = async (payload: IReview, user: JwtPayload) => {
 
       const { averageRating = 0, ratingCount = 0 } = reviews[0] || {};
 
-      // const updatedProduct = await Product.findByIdAndUpdate(
-      //    payload.product,
-      //    { averageRating, ratingCount },
-      //    { session, new: true }
-      // );
+      const updatedProduct = await Tutor.findByIdAndUpdate(
+         payload.tutor,
+         { averageRating, ratingCount },
+         { session, new: true }
+      );
 
-      // if (!updatedProduct) {
-      //    throw new AppError(
-      //       StatusCodes.NOT_FOUND,
-      //       'Product not found during rating update.'
-      //    );
-      // }
+      if (!updatedProduct) {
+         throw new AppError(
+            StatusCodes.NOT_FOUND,
+            'Product not found during rating update.'
+         );
+      }
 
       await session.commitTransaction();
       return review;
@@ -75,25 +96,14 @@ const createReview = async (payload: IReview, user: JwtPayload) => {
    }
 };
 
-const getAllReviews = async (query: Record<string, unknown>) => {
-   const brandQuery = new QueryBuilder(
-      Review.find().populate('product user'),
-      query
-   )
-      .search(['review'])
-      .filter()
-      .sort()
-      .paginate()
-      .fields();
+const getAllReviews = async (studentId: string) => {
+   // console.log(studentId)
+   const result = await Review.find({ student: studentId }).populate("tutor");
+   // console.log(result)
 
-   const result = await brandQuery.modelQuery;
-   const meta = await brandQuery.countTotal();
 
-   return {
-      meta,
-      result,
-   };
-};
+   return result;
+}
 
 export const ReviewServices = {
    createReview,

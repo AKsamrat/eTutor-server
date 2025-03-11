@@ -6,13 +6,13 @@ import { UserRole } from '../user/user.interface';
 const router = Router();
 
 router.get(
-    '/',
-    auth(UserRole.ADMIN),
+    '/:studentId',
+    // auth(UserRole.ADMIN),
     ReviewControllers.getAllReviews
 );
 router.post(
     '/',
-    auth(UserRole.USER),
+    // auth(UserRole.USER),
     ReviewControllers.createReview
 );
 

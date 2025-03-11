@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import SSLCommerzPayment from 'sslcommerz-lts';
+import { SslCommerzPayment } from 'sslcommerz';
 import config from '../../config';
 import AppError from '../../errors/appError';
 import { StatusCodes } from 'http-status-codes';
@@ -51,7 +51,7 @@ const initPayment = async (paymentData: { total_amount: number, tran_id: string 
         ship_country: 'Bangladesh',
     };
 
-    const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+    const sslcz = new SslCommerzPayment(store_id, store_passwd, is_live);
 
     try {
         const apiResponse = await sslcz.init(data);
@@ -71,7 +71,7 @@ const initPayment = async (paymentData: { total_amount: number, tran_id: string 
 
 
 const validatePaymentService = async (tran_id: string): Promise<boolean> => {
-    const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+    const sslcz = new SslCommerzPayment(store_id, store_passwd, is_live);
 
     const session = await mongoose.startSession();
     session.startTransaction();

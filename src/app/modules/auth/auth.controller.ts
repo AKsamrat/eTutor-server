@@ -7,14 +7,14 @@ import config from "../../config";
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthService.loginUser(req.body);
-  const { refreshToken, accessToken } = result;
+  const { accessToken } = result;
 
-  res.cookie("refreshToken", refreshToken, {
-    secure: config.NODE_ENV === "production",
-    httpOnly: true,
-    sameSite: "none",
-    maxAge: 1000 * 60 * 60 * 24 * 365,
-  });
+  // res.cookie("refreshToken", refreshToken, {
+  //   secure: config.NODE_ENV === "production",
+  //   httpOnly: true,
+  //   sameSite: "none",
+  //   maxAge: 1000 * 60 * 60 * 24 * 365,
+  // });
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
@@ -22,23 +22,23 @@ const loginUser = catchAsync(async (req, res) => {
     message: "User logged in successfully!",
     data: {
       accessToken,
-      refreshToken
+      // refreshToken
     },
   });
 });
 
-const refreshToken = catchAsync(async (req: Request, res: Response) => {
-  const { authorization } = req.headers;
+// const refreshToken = catchAsync(async (req: Request, res: Response) => {
+//   const { authorization } = req.headers;
 
-  const result = await AuthService.refreshToken(authorization as string);
+//   const result = await AuthService.refreshToken(authorization as string);
 
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: "User logged in successfully!",
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     statusCode: 200,
+//     success: true,
+//     message: "User logged in successfully!",
+//     data: result,
+//   });
+// });
 
 // change password
 const changePassword = catchAsync(async (req: Request, res: Response) => {
@@ -84,7 +84,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
 
 export const AuthController = {
   loginUser,
-  refreshToken,
+  // refreshToken,
   changePassword,
   forgotPassword,
 

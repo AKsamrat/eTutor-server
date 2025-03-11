@@ -145,27 +145,11 @@ const getOrderDetails = async (orderId: string) => {
 };
 
 const getMyOrders = async (
-  query: Record<string, unknown>,
-  authUser: IJwtPayload
+  tutorId: string
 ) => {
-  const orderQuery = new QueryBuilder(
-    Order.find({ user: authUser.userId }),
-    query
-  )
-    .search(["user.name", "user.email", "products.product.name"])
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
-
-  const result = await orderQuery.modelQuery;
-
-  const meta = await orderQuery.countTotal();
-
-  return {
-    meta,
-    result,
-  };
+  const result = await Order.find({ "products.tutor": new Types.ObjectId(tutorId) }).populate("user");
+  console.log(tutorId, result)
+  return result;
 };
 
 // const changeOrderStatus = async (

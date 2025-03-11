@@ -48,10 +48,24 @@ const getSingleTutor = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getSingleTutorById = catchAsync(async (req, res) => {
+  const { tutorId } = req.params;
+  console.log("single tutor", tutorId)
+  const result = await TutorServices.getSingleTutorById(tutorId);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Tutor  retrieved successfully',
+    data: result,
+  });
+});
 
 
 export const TutorController = {
   updateProfile,
   getAllTutor,
   getSingleTutor,
+
+  getSingleTutorById,
 };

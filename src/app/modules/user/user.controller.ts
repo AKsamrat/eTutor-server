@@ -13,14 +13,14 @@ const registerUser = catchAsync(async (req: Request, res: Response) => {
       req.body
    );
 
-   const { refreshToken, accessToken } = result;
+   const { accessToken } = result;
 
-   res.cookie('refreshToken', refreshToken, {
-      secure: config.NODE_ENV === 'production',
-      httpOnly: true,
-      sameSite: 'none',
-      maxAge: 1000 * 60 * 60 * 24 * 365,
-   });
+   // res.cookie('refreshToken', refreshToken, {
+   //    secure: config.NODE_ENV === 'production',
+   //    httpOnly: true,
+   //    sameSite: 'none',
+   //    maxAge: 1000 * 60 * 60 * 24 * 365,
+   // });
 
    sendResponse(res, {
       statusCode: StatusCodes.OK,

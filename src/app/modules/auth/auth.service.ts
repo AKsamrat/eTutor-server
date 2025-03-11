@@ -33,7 +33,7 @@ const loginUser = async (payload: IAuth) => {
          throw new AppError(StatusCodes.FORBIDDEN, 'Password does not match');
       }
 
-      const jwtPayload: IJwtPayload = {
+      const jwtPayload = {
          userId: user._id as string,
          name: user.name as string,
          email: user.email as string,
@@ -42,17 +42,18 @@ const loginUser = async (payload: IAuth) => {
          role: user.role,
       };
 
+
       const accessToken = createToken(
          jwtPayload,
          config.jwt_access_secret as string,
          config.jwt_access_expires_in as string
       );
 
-      const refreshToken = createToken(
-         jwtPayload,
-         config.jwt_refresh_secret as string,
-         config.jwt_refresh_expires_in as string
-      );
+      // const refreshToken = createToken(
+      //    jwtPayload,
+      //    config.jwt_refresh_secret as string,
+      //    config.jwt_refresh_expires_in as string
+      // );
 
       const updateUserInfo = await User.findByIdAndUpdate(
          user._id,
@@ -64,7 +65,7 @@ const loginUser = async (payload: IAuth) => {
 
       return {
          accessToken,
-         refreshToken,
+         // refreshToken,
       };
    } catch (error) {
       await session.abortTransaction();
@@ -74,49 +75,49 @@ const loginUser = async (payload: IAuth) => {
    }
 };
 
-const refreshToken = async (token: string) => {
+// const refreshToken = async (token: string) => {
 
-   let verifiedToken = null;
-   try {
-      verifiedToken = verifyToken(
-         token,
-         config.jwt_refresh_secret as Secret
-      );
-   } catch (err) {
-      throw new AppError(StatusCodes.FORBIDDEN, 'Invalid Refresh Token');
-   }
+//    let verifiedToken = null;
+//    try {
+//       verifiedToken = verifyToken(
+//          token,
+//          config.jwt_refresh_secret as Secret
+//       );
+//    } catch (err) {
+//       throw new AppError(StatusCodes.FORBIDDEN, 'Invalid Refresh Token');
+//    }
 
-   const { userId } = verifiedToken;
+//    const { userId } = verifiedToken;
 
-   const isUserExist = await User.findById(userId);
-   if (!isUserExist) {
-      throw new AppError(StatusCodes.NOT_FOUND, 'User does not exist');
-   }
+//    const isUserExist = await User.findById(userId);
+//    if (!isUserExist) {
+//       throw new AppError(StatusCodes.NOT_FOUND, 'User does not exist');
+//    }
 
-   if (!isUserExist.isActive) {
-      throw new AppError(StatusCodes.BAD_REQUEST, 'User is not active');
-   }
+//    if (!isUserExist.isActive) {
+//       throw new AppError(StatusCodes.BAD_REQUEST, 'User is not active');
+//    }
 
 
-   const jwtPayload: IJwtPayload = {
-      userId: isUserExist._id as string,
-      name: isUserExist.name as string,
-      email: isUserExist.email as string,
-      // hasShop: isUserExist.hasShop,
-      isActive: isUserExist.isActive,
-      role: isUserExist.role,
-   };
+//    const jwtPayload: IJwtPayload = {
+//       userId: isUserExist._id as string,
+//       name: isUserExist.name as string,
+//       email: isUserExist.email as string,
+//       // hasShop: isUserExist.hasShop,
+//       isActive: isUserExist.isActive,
+//       role: isUserExist.role,
+//    };
 
-   const newAccessToken = createToken(
-      jwtPayload,
-      config.jwt_access_secret as Secret,
-      config.jwt_access_expires_in as string
-   );
+//    const newAccessToken = createToken(
+//       jwtPayload,
+//       config.jwt_access_secret as Secret,
+//       config.jwt_access_expires_in as string
+//    );
 
-   return {
-      accessToken: newAccessToken,
-   };
-};
+//    return {
+//       accessToken: newAccessToken,
+//    };
+// };
 
 const changePassword = async (
    userData: JwtPayload,
@@ -238,7 +239,7 @@ const resetPassword = async ({
 
 export const AuthService = {
    loginUser,
-   refreshToken,
+   // refreshToken,
    changePassword,
    forgotPassword,
 

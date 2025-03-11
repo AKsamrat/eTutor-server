@@ -46,17 +46,16 @@ const getOrderDetails = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getMyOrders = catchAsync(async (req: Request, res: Response) => {
-  const result = await OrderService.getMyOrders(
-    req.query,
-    req.user as IJwtPayload
-  );
+  const { tutorId } = req.params;
+  // console.log(tutorId)
+  const result = await OrderService.getMyOrders(tutorId);
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
     message: "Order retrive succesfully",
-    data: result.result,
-    meta: result.meta,
+    data: result,
+
   });
 });
 

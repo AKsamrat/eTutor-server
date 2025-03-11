@@ -3,13 +3,9 @@ import QueryBuilder from "../../builder/QueryBuilder";
 import { IBooking } from "./booking.interface";
 import Booking from "./booking.model";
 
-
-
-
-
 const createBooking = async (payload: Partial<IBooking>): Promise<IBooking> => {
   // const { name, subject, hourlyRate, availability } = payload;
-  console.log(payload)
+  console.log("backend", payload)
 
   const newBooking = new Booking(payload);
   return await newBooking.save();

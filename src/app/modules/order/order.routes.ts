@@ -13,14 +13,14 @@ const router = Router();
 // );
 
 router.get(
-    '/my-orders',
-    auth(UserRole.USER),
+    '/:tutorId',
+    // auth(UserRole.USER),
     OrderController.getMyOrders
 );
 
 router.get(
     '/:orderId',
-    auth(UserRole.USER),
+    // auth(UserRole.USER),
     OrderController.getOrderDetails
 );
 

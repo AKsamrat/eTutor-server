@@ -9,6 +9,7 @@ const router = Router();
 router.patch("/:tutorId", TutorController.updateProfile);
 router.get("/", TutorController.getAllTutor);
 router.get("/:email", TutorController.getSingleTutor);
+router.get("/review/:tutorId", TutorController.getSingleTutorById);
 
 // Respond to Student Request
 // router.put("/response", TutorController.respondToRequest);

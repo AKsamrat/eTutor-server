@@ -8,6 +8,7 @@ import { StudentRoutes } from '../modules/student/student.routes';
 import { BookingRoutes } from '../modules/Booking/booking.route';
 import { OrderRoutes } from '../modules/order/order.routes';
 import { SSLRoutes } from '../modules/sslcommerz/sslcommerz.routes';
+import { PaymentRoutes } from '../modules/payment/payment.routes';
 const router = Router();
 
 const moduleRoutes = [
@@ -38,6 +39,14 @@ const moduleRoutes = [
    {
       path: '/ssl',
       route: SSLRoutes,
+   },
+   {
+      path: '/payment',
+      route: PaymentRoutes,
+   },
+   {
+      path: '/review',
+      route: ReviewRoutes,
    },
 
 ];

@@ -9,11 +9,11 @@ const router = Router();
 
 router.post('/login', clientInfoParser, AuthController.loginUser);
 
-router.post(
-   '/refresh-token',
-   // validateRequest(AuthValidation.refreshTokenZodSchema),
-   AuthController.refreshToken
-);
+// router.post(
+//    '/refresh-token',
+//    // validateRequest(AuthValidation.refreshTokenZodSchema),
+//    AuthController.refreshToken
+// );
 
 router.post(
    '/change-password',

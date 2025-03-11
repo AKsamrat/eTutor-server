@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { ITutor } from "./tutor.interface";
 import Tutor from "./tutor.model";
@@ -19,12 +20,19 @@ const getSingleTutor = async (email: string) => {
   // console.log(result)
   return result;
 };
+const getSingleTutorById = async (tutorId: string) => {
+  console.log("service", tutorId)
+  const result = await Tutor.findById(tutorId);
+  console.log(result)
+  return result;
+};
 const getAllTutor = async (query: Record<string, unknown>) => {
+  const searchableFields = ['subject', 'haurlyRate'];
   const brandQuery = new QueryBuilder(
     Tutor.find(),
     query
   )
-    .search(['review'])
+    .search(searchableFields)
     .filter()
     .sort()
     .paginate()
@@ -39,6 +47,7 @@ const getAllTutor = async (query: Record<string, unknown>) => {
   };
 };
 export const TutorServices = {
+  getSingleTutorById,
   getSingleTutor,
   getAllTutor,
   updateProfile,

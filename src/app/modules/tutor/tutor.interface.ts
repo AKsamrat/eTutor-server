@@ -7,6 +7,8 @@ export interface ITutor extends Document {
   bio?: string;
   pic?: string;
   email?: string;
+  averageRating?: number;
+  ratingCount?: number;
   preferredClass?: string;
   preferredArea?: string;
   hourlyRate?: number;

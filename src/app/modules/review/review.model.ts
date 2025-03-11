@@ -15,14 +15,14 @@ const reviewSchema = new Schema<IReview>(
          min: [1, 'Rating must be at least 1.'],
          max: [5, 'Rating cannot be greater than 5.'],
       },
-      user: {
+      student: {
          type: Schema.Types.ObjectId,
-         ref: 'User',
+         ref: 'Student',
          required: true,
       },
-      product: {
+      tutor: {
          type: Schema.Types.ObjectId,
-         ref: 'Product',
+         ref: 'Tutor',
          required: true,
       },
       isFlagged: {

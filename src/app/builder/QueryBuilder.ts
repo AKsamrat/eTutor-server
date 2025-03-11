@@ -9,8 +9,10 @@ class QueryBuilder<T> {
         this.query = query;
     }
 
+
     search(searchableFields: string[]) {
         const searchTerm = this?.query?.searchTerm;
+        console.log("search", searchTerm)
         if (searchTerm) {
             this.modelQuery = this.modelQuery.find({
                 $or: searchableFields.map(

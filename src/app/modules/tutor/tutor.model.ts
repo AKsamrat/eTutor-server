@@ -20,6 +20,17 @@ const TutorSchema = new Schema<ITutor>(
     review: { type: Number, default: '' },
     lastLogin: { type: Date, default: Date.now, },
     availability: { type: String, default: "available", },
+    averageRating: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 5,
+    },
+    ratingCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },
